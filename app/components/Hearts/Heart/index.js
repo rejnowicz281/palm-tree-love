@@ -1,8 +1,10 @@
+import Image from "next/image";
+
 export default function Heart() {
     const randomSize = Math.random() * 50 + 50;
 
     return (
-        <img
+        <Image
             src="/gye.png"
             height={randomSize}
             width={randomSize}
