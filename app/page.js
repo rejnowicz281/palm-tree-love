@@ -1,5 +1,6 @@
 "use client";
 
+import { sendHeart } from "@/actions/heart";
 import { pusherClient } from "@/pusher";
 import { useEffect, useState } from "react";
 import Hearts from "./components/Hearts";
@@ -19,15 +20,15 @@ export default function Home() {
         };
     }, []);
 
-    function handleClick() {
-        if (runAnim) return;
+    async function handleClick() {
+        if (runAnim) return; // Don't run animation if it's already running or if the request failed
 
-        setRunAnim(true);
-        setTimeout(() => setRunAnim(false), 1500);
+        const res = await sendHeart();
 
-        fetch("/api/heart", {
-            method: "POST",
-        });
+        if (res.success) {
+            setRunAnim(true);
+            setTimeout(() => setRunAnim(false), 1500);
+        }
     }
 
     return (
