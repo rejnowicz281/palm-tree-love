@@ -1,10 +1,13 @@
 "use client";
 
 import { pusherClient } from "@/pusher";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Hearts from "./components/Hearts";
 import css from "./page.module.css";
 
 export default function Home() {
+    const [runAnim, setRunAnim] = useState(false);
+
     useEffect(() => {
         pusherClient.subscribe("palm");
 
@@ -17,6 +20,11 @@ export default function Home() {
     }, []);
 
     function handleClick() {
+        if (runAnim) return;
+
+        setRunAnim(true);
+        setTimeout(() => setRunAnim(false), 1500);
+
         fetch("/api/heart", {
             method: "POST",
         });
@@ -25,8 +33,14 @@ export default function Home() {
     return (
         <div className={css.wrapper}>
             <div className={css["image-container"]}>
-                <img onClick={handleClick} className={css.image} src="/gye.png" alt="Hear it" />
+                <img
+                    onClick={handleClick}
+                    className={`${css.image}${runAnim ? ` ${css.anim}` : ""}`}
+                    src="/gye.png"
+                    alt="Heart"
+                />
             </div>
+            <Hearts runAnim={runAnim} />
         </div>
     );
 }
