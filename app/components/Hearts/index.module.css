@@ -6,9 +6,6 @@
     left: 0;
     right: 0;
     opacity: 0;
-}
-
-.anim {
     animation: anim 1.5s ease-in-out 1;
 }
 

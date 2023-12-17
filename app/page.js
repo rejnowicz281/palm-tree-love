@@ -40,7 +40,7 @@ export default function Home() {
                     alt="Heart"
                 />
             </div>
-            <Hearts runAnim={runAnim} />
+            {runAnim && <Hearts />}
         </div>
     );
 }
