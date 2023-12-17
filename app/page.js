@@ -12,7 +12,11 @@ export default function Home() {
     useEffect(() => {
         pusherClient.subscribe("palm");
 
-        pusherClient.bind("heart", () => console.log("heart"));
+        pusherClient.bind("heart", () => {
+            console.log("heart");
+            setRunAnim(true);
+            setTimeout(() => setRunAnim(false), 1500);
+        });
 
         return () => {
             pusherClient.unbind("heart");
@@ -21,14 +25,9 @@ export default function Home() {
     }, []);
 
     async function handleClick() {
-        if (runAnim) return; // Don't run animation if it's already running or if the request failed
+        if (runAnim) return;
 
-        const res = await sendHeart();
-
-        if (res.success) {
-            setRunAnim(true);
-            setTimeout(() => setRunAnim(false), 1500);
-        }
+        sendHeart();
     }
 
     return (
