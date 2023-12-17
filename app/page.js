@@ -8,6 +8,7 @@ import css from "./page.module.css";
 
 export default function Home() {
     const [runAnim, setRunAnim] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         pusherClient.subscribe("palm");
@@ -25,9 +26,11 @@ export default function Home() {
     }, []);
 
     async function handleClick() {
-        if (runAnim) return;
+        if (runAnim || loading) return;
 
-        sendHeart();
+        setLoading(true);
+        await sendHeart();
+        setLoading(false);
     }
 
     return (
