@@ -2,26 +2,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    flex: 1;
 }
 
-.image-container {
-    max-width: 800px;
-}
-
-.image {
+.heart {
     padding: 25px;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
     transition: 0.2s;
     cursor: pointer;
 }
 
-.image:hover {
+.heart:hover {
     opacity: 0.8;
 }
 
-.image:hover.anim {
+.heart:hover.anim {
     opacity: 0.6;
 }

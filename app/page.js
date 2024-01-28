@@ -3,7 +3,8 @@
 import { sendHeart } from "@/actions/heart";
 import { pusherClient } from "@/pusher";
 import { useEffect, useState } from "react";
-import Hearts from "./components/Hearts";
+import FloatingHearts from "./components/FloatingHearts";
+import Heart from "./components/Heart";
 import css from "./page.module.css";
 
 export default function Home() {
@@ -35,15 +36,9 @@ export default function Home() {
 
     return (
         <div className={css.wrapper}>
-            <div className={css["image-container"]}>
-                <img
-                    onClick={handleClick}
-                    className={`${css.image}${runAnim ? ` ${css.anim}` : ""}`}
-                    src="/gye.png"
-                    alt="Heart"
-                />
-            </div>
-            {runAnim && <Hearts />}
+            <Heart onClick={handleClick} width="800" className={`${css.heart}${runAnim ? ` ${css.anim}` : ""}`} />
+
+            {runAnim && <FloatingHearts />}
         </div>
     );
 }
