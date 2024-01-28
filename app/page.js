@@ -36,7 +36,12 @@ export default function Home() {
 
     return (
         <div className={css.wrapper}>
-            <Heart onClick={handleClick} width="800" className={`${css.heart}${runAnim ? ` ${css.anim}` : ""}`} />
+            <Heart
+                bubbly={true}
+                onClick={handleClick}
+                width="800"
+                className={`${css.heart}${runAnim ? ` ${css.anim}` : ""}`}
+            />
 
             {runAnim && <FloatingHearts />}
         </div>

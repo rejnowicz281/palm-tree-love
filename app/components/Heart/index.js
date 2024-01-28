@@ -1,4 +1,11 @@
-export default function Heart({ fill = "rgb(230, 0, 100)", width, height, style, className, onClick }) {
+import { useState } from "react";
+import css from "./index.module.css";
+
+export default function Heart({ fill = "rgb(230, 0, 100)", width, height, style, className, onClick, bubbly = false }) {
+    const [bubble, setBubble] = useState(false);
+
+    const bubblyClassName = bubbly && bubble ? ` ${css.bubble}` : "";
+
     return (
         <svg
             viewBox="0 0 24 24"
@@ -7,7 +14,10 @@ export default function Heart({ fill = "rgb(230, 0, 100)", width, height, style,
             height={height}
             style={style}
             onClick={onClick}
-            className={className}
+            className={className + bubblyClassName}
+            onPointerDown={() => setBubble(true)}
+            onPointerUp={() => setBubble(false)}
+            onPointerCancel={() => setBubble(false)}
             xmlns="http://www.w3.org/2000/svg"
         >
             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>

@@ -23,6 +23,7 @@
 
 .heart:hover {
     opacity: 0.8;
+    scale: 1.01;
 }
 
 .heart:hover.anim {
