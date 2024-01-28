@@ -11,12 +11,29 @@ export default function Home() {
     const [runAnim, setRunAnim] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    function heartNotification() {
+        Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+                navigator.serviceWorker.ready.then(function (registration) {
+                    registration.showNotification("Heart received", {
+                        body: "Someone loves you!",
+                        icon: "/icon-512x512.png",
+                        image: "/icon-512x512.png",
+                        tag: "heart",
+                    });
+                });
+            }
+        });
+    }
+
     useEffect(() => {
         pusherClient.subscribe("palm");
 
-        pusherClient.bind("heart", () => {
-            console.log("heart");
+        pusherClient.bind("heart", ({ sender }) => {
+            console.log("Heart");
             setRunAnim(true);
+            // Show notification if not sender
+            if (sender !== pusherClient.connection.socket_id) heartNotification();
             setTimeout(() => setRunAnim(false), 1500);
         });
 
@@ -30,7 +47,7 @@ export default function Home() {
         if (runAnim || loading) return;
 
         setLoading(true);
-        await sendHeart();
+        await sendHeart(pusherClient.connection.socket_id);
         setLoading(false);
     }
 
