@@ -63,9 +63,9 @@ export default function Home() {
 
     async function handleSendHeart(deep_link) {
         // hacky way to avoid receiving the heart notification that you sent
-        await beamsClientRef.current.removeDeviceInterest("palm");
+        await beamsClientRef.current?.removeDeviceInterest("palm");
         await pushHeartNotification(deep_link);
-        await beamsClientRef.current.addDeviceInterest("palm");
+        await beamsClientRef.current?.addDeviceInterest("palm");
 
         await sendHeart();
     }
