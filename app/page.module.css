@@ -29,3 +29,49 @@
 .heart:hover.anim {
     opacity: 0.6;
 }
+
+.shake {
+    animation: shake 1s ease-in-out;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(2px, 2px) rotate(0deg);
+    }
+    10% {
+        transform: translate(-2px, -4px) rotate(-2deg);
+    }
+    20% {
+        transform: translate(-6px, 0px) rotate(2deg);
+    }
+    30% {
+        transform: translate(6px, 4px) rotate(0deg);
+    }
+    40% {
+        transform: translate(2px, -2px) rotate(2deg);
+    }
+    50% {
+        fill: rgb(200, 0, 100);
+        transform: translate(-2px, 4px) rotate(-2deg);
+    }
+    60% {
+        transform: translate(-6px, 2px) rotate(0deg);
+    }
+    70% {
+        transform: translate(6px, 2px) rotate(-2deg);
+    }
+    80% {
+        transform: translate(-2px, -2px) rotate(2deg);
+    }
+    90% {
+        transform: translate(2px, 4px) rotate(0deg);
+    }
+    100% {
+        transform: translate(2px, -4px) rotate(-2deg);
+    }
+}
+
+.pulsate {
+    scale: 1.02 !important;
+    fill: rgb(255, 0, 120);
+}

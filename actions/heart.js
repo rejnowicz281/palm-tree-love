@@ -4,9 +4,9 @@ import { getBeamsServer, pusherServer } from "@/pusher";
 import actionError from "@/utils/actions/actionError";
 import actionSuccess from "@/utils/actions/actionSuccess";
 
-export async function sendHeart(channel = "palm") {
+export async function sendHeart(socket_id, channel = "palm") {
     try {
-        await pusherServer.trigger(channel, "heart", {});
+        await pusherServer.trigger(channel, "heart", {}, { socket_id });
 
         return actionSuccess("sendHeart");
     } catch (e) {

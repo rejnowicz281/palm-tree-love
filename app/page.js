@@ -8,9 +8,11 @@ import Heart from "./components/Heart";
 import css from "./page.module.css";
 
 export default function Home() {
-    const [runAnim, setRunAnim] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const loading = useRef(false);
     const beamsClientRef = useRef(null);
+    const [floatingHearts, setFloatingHearts] = useState(null);
+    const [shake, setShake] = useState(false);
+    const [pulsate, setPulsate] = useState(false);
 
     // Prompt for notification permissions
     useEffect(() => {
@@ -23,8 +25,8 @@ export default function Home() {
         pusherClient.subscribe("palm");
 
         pusherClient.bind("heart", () => {
-            setRunAnim(true);
-            setTimeout(() => setRunAnim(false), 1500);
+            console.log("Heart received");
+            runFloatingHearts();
         });
 
         return () => {
@@ -53,21 +55,59 @@ export default function Home() {
         }
     }
 
-    async function handleClick() {
-        if (runAnim || loading) return;
+    function runFloatingHearts() {
+        if (floatingHearts) return;
 
-        setLoading(true);
-        await handleSendHeart(location.origin);
-        setLoading(false);
+        setFloatingHearts(<FloatingHearts />);
+        setTimeout(() => setFloatingHearts(null), 1500);
     }
 
-    async function handleSendHeart(deep_link) {
-        // hacky way to avoid receiving the heart notification that you sent
+    function runPulsate() {
+        if (pulsate) return;
+
+        setPulsate(true);
+        setTimeout(() => setPulsate(false), 200);
+    }
+
+    function runShake() {
+        if (shake) return;
+
+        setShake(true);
+        setTimeout(() => setShake(false), 1000);
+    }
+
+    async function handleClick() {
+        runFloatingHearts();
+
+        if (loading.current || floatingHearts) return;
+
+        loading.current = true;
         await beamsClientRef.current?.removeDeviceInterest("palm");
-        await pushHeartNotification(deep_link);
+
+        const [heartResponse, notificationResponse] = await Promise.all([
+            sendHeart(pusherClient.connection.socket_id),
+            pushHeartNotification("https://palm-tree-love.vercel.app"),
+        ]);
+
+        if (notificationResponse.success) {
+            console.log("Sending notification successful");
+            runPulsate();
+        } else {
+            console.log("Sending notification failed");
+            runShake();
+        }
+
+        if (heartResponse.success) {
+            console.log("Sending heart successful");
+            runPulsate();
+        } else {
+            console.log("Sending heart failed");
+            runShake();
+        }
+
         await beamsClientRef.current?.addDeviceInterest("palm");
 
-        await sendHeart();
+        loading.current = false;
     }
 
     return (
@@ -76,10 +116,13 @@ export default function Home() {
                 bubbly={true}
                 onClick={handleClick}
                 width="800"
-                className={`${css.heart}${runAnim ? ` ${css.anim}` : ""}`}
+                fill="rgb(255, 0, 100)"
+                className={`${css.heart}${floatingHearts ? ` ${css.anim}` : ""} ${shake ? ` ${css.shake}` : ""} ${
+                    pulsate ? ` ${css.pulsate}` : ""
+                }`}
             />
 
-            {runAnim && <FloatingHearts />}
+            {floatingHearts}
         </div>
     );
 }
