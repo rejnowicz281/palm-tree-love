@@ -6,6 +6,18 @@ export default function Heart({ fill = "rgb(230, 0, 100)", width, height, style,
 
     const bubblyClassName = bubbly && bubble ? ` ${css.bubble}` : "";
 
+    function handleEnableBubble() {
+        if (!bubbly) return;
+
+        setBubble(true);
+    }
+
+    function handleDisableBubble() {
+        if (!bubbly) return;
+
+        setBubble(false);
+    }
+
     return (
         <svg
             viewBox="0 0 24 24"
@@ -15,9 +27,9 @@ export default function Heart({ fill = "rgb(230, 0, 100)", width, height, style,
             style={style}
             onClick={onClick}
             className={className + bubblyClassName}
-            onPointerDown={() => setBubble(true)}
-            onPointerUp={() => setBubble(false)}
-            onPointerCancel={() => setBubble(false)}
+            onPointerDown={handleEnableBubble}
+            onPointerUp={handleDisableBubble}
+            onPointerCancel={handleDisableBubble}
             xmlns="http://www.w3.org/2000/svg"
         >
             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
