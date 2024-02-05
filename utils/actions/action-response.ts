@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-export default function actionResponse(success = true, actionName, additionalData = {}, redirectPath = null) {
+export default function actionResponse(actionName: string, success = true, additionalData = {}, redirectPath = null) {
     const data = {
         action: actionName,
         success,

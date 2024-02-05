@@ -1,18 +1,20 @@
 "use client";
 
 import { pushHeartNotification, sendHeart } from "@/actions/heart";
+import FloatingHearts from "@/components/floating-hearts";
+import Heart from "@/components/heart";
 import { getBeamsClient, pusherClient } from "@/pusher";
-import { useEffect, useRef, useState } from "react";
-import FloatingHearts from "./components/FloatingHearts";
-import Heart from "./components/Heart";
+import { Client } from "@pusher/push-notifications-web";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import css from "./page.module.css";
 
-export default function Home() {
-    const loading = useRef(false);
-    const beamsClientRef = useRef(null);
-    const [floatingHearts, setFloatingHearts] = useState(null);
-    const [shake, setShake] = useState(false);
-    const [pulsate, setPulsate] = useState(false);
+const Home = () => {
+    const loading = useRef<boolean>(false);
+
+    const beamsClientRef = useRef<Client | null>(null);
+    const [floatingHearts, setFloatingHearts] = useState<ReactNode>(null);
+    const [shake, setShake] = useState<boolean>(false);
+    const [pulsate, setPulsate] = useState<boolean>(false);
 
     // Prompt for notification permissions
     useEffect(() => {
@@ -35,7 +37,7 @@ export default function Home() {
         };
     }, []);
 
-    async function registerBeams(registration) {
+    async function registerBeams(registration: ServiceWorkerRegistration) {
         if (beamsClientRef.current) return;
 
         const beamsClient = getBeamsClient(registration);
@@ -115,7 +117,7 @@ export default function Home() {
             <Heart
                 bubbly={true}
                 onClick={handleClick}
-                width="800"
+                width={800}
                 fill="rgb(255, 0, 100)"
                 className={`${css.heart}${floatingHearts ? ` ${css.anim}` : ""} ${shake ? ` ${css.shake}` : ""} ${
                     pulsate ? ` ${css.pulsate}` : ""
@@ -125,4 +127,6 @@ export default function Home() {
             {floatingHearts}
         </div>
     );
-}
+};
+
+export default Home;

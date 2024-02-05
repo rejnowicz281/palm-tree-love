@@ -1,7 +1,17 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import css from "./index.module.css";
 
-export default function Heart({ fill = "rgb(230, 0, 100)", width, height, style, className, onClick, bubbly = false }) {
+export type HeartProps = {
+    fill?: string;
+    width?: number;
+    height?: number;
+    style?: React.CSSProperties;
+    className?: string;
+    onClick?: () => void;
+    bubbly?: boolean;
+};
+
+const Heart:FC<HeartProps> = ({ fill = "rgb(230, 0, 100)", width, height, style, className, onClick, bubbly = false })=> {
     const [bubble, setBubble] = useState(false);
 
     const bubblyClassName = bubbly && bubble ? ` ${css.bubble}` : "";
@@ -40,3 +50,5 @@ export default function Heart({ fill = "rgb(230, 0, 100)", width, height, style,
         </svg>
     );
 }
+
+export default Heart;

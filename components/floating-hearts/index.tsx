@@ -1,4 +1,4 @@
-import Heart from "../Heart";
+import Heart from "../heart";
 import css from "./index.module.css";
 
 export default function FloatingHearts() {
